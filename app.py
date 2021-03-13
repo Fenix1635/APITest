@@ -4,8 +4,7 @@ import requests
 import json
 import os
 from selenium import webdriver
-from bs4 import BeautifulSoup, element
-import pandas as pd
+
 
 app = Flask(__name__)
 
@@ -20,7 +19,7 @@ def index():
 
 @app.route('/api', methods=['GET'])
 def deploy():
-    test = []
+    test = {}
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     chrome_options.add_argument("--headless")
@@ -31,14 +30,15 @@ def deploy():
     try:
         element = driver.find_element_by_xpath("/html/body/main/section[2]/article[2]/div/div/div[2]/div/div/div[1]/div/div/div[2]/div/div/div")
         content = element.get_attribute("innerText")
-        test.append(content)
+        test['preco'] = content
 
         element2 = driver.find_element_by_xpath("//*[@id='form-cart-add']/section[2]/div/div[2]/button")
         content2 = element2.get_attribute("innerText")
-        test.append(content2)
+        test['botao'] = content2
+        driver.close()
         return test
     except:
-        test = 0
+        test = {'preco': 'Sold Out', 'botao': 'Sold Out'}
         return test
     
 
