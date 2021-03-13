@@ -2,3 +2,5 @@ flask
 requests
 flask_cors
 selenium
+beautifulsoup4
+pandas
