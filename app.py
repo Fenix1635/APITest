@@ -5,7 +5,6 @@ import os
 
 app = Flask(__name__)
 
-
 try: 
     url = 'https://www.coupang.com/vp/products/4348473678/vendor-items/72771319696/shipping-consolidation-widget?vendorId=A00157129&shippingPlaceId=657033'
 
@@ -32,11 +31,15 @@ except:
 @app.route('/', methods=['GET'])
 
 def index():
+    return "<h1>Olá<h1>"
+
+@app.route('/api', methods=['GET'])
+def deploy():
     return response_formatted2
 
 def main():
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host='0.0.0.0', port=port)
 
 if __name__ == "__main__":
-        main()
+    main()
