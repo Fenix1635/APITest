@@ -1,15 +1,18 @@
 from flask import Flask
+from flask_cors import CORS
 import requests
 import json
 import os
 
 app = Flask(__name__)
 
-try: 
-    url = 'https://www.coupang.com/vp/products/4348473678/vendor-items/72771319696/shipping-consolidation-widget?vendorId=A00157129&shippingPlaceId=657033'
+cors = CORS(app, resource={r"/*":{"origins": "*"}})
+
+ 
+url = 'https://www.coupang.com/vp/products/4348473678/vendor-items/72771319696/shipping-consolidation-widget?vendorId=A00157129&shippingPlaceId=657033'
 
 
-    headers = {
+headers = {
                 'authority': 'www.coupang.com',
                 "pragma": "no-cache",
                 'cache-control': 'no-cache',
@@ -19,12 +22,10 @@ try:
                 'sec-fetch-mode':'cors',
                 'sec-fetch-site':'same-origin',
                 'referer': 'https://www.coupang.com//vp/products/4348473678?vendorItemId=72771319696&sourceType=SDP_SC_RECOMMENDATION'
-            }
+        }
 
-    response = requests.get(url, headers=headers)
-    response_formatted2 = json.loads(response.content.decode('utf-8-sig').encode('utf-8'))
-except: 
-    print('ERROR')
+response = requests.get(url, headers=headers)
+response_formatted2 = json.loads(response.content.decode('utf-8-sig').encode('utf-8'))
 
 
 
@@ -42,4 +43,5 @@ def main():
     app.run(host='0.0.0.0', port=port)
 
 if __name__ == "__main__":
+    print('ONLINE')
     main()
