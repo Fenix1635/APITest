@@ -1,9 +1,9 @@
-import flask
-from flask import request
+from flask import Flask
 import requests
 import json
+import os
 
-app = flask.flask(__name__)
+app = Flask(__name__)
 
 
 try: 
@@ -29,8 +29,14 @@ except:
 
 
 
-@app.route('/', methdos=['GET'])
+@app.route('/', methods=['GET'])
 
-def home():
-    
+def index():
     return response_formatted2
+
+def main():
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
+if __name__ == "__main__":
+        main()
