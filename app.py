@@ -3,31 +3,20 @@ from flask_cors import CORS
 import requests
 import json
 import os
+from selenium import webdriver
 
 app = Flask(__name__)
 
 cors = CORS(app, resource={r"/*":{"origins": "*"}})
 
- 
-# url = 'https://www.coupang.com/vp/products/4348473678/vendor-items/72771319696/shipping-consolidation-widget?vendorId=A00157129&shippingPlaceId=657033'
-
-
-# headers = {
-#                 'authority': 'www.coupang.com',
-#                 "pragma": "no-cache",
-#                 'cache-control': 'no-cache',
-#                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36',
-#                 'accept': '*/*',
-#                 'sec-fetch-dest':'empty',
-#                 'sec-fetch-mode':'cors',
-#                 'sec-fetch-site':'same-origin',
-#                 'referer': 'https://www.coupang.com//vp/products/4348473678?vendorItemId=72771319696&sourceType=SDP_SC_RECOMMENDATION'
-#         }
-
-# response = requests.get(url, headers=headers)
-# response_formatted2 = json.loads(response.content.decode('utf-8-sig').encode('utf-8'))
-
-
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--no-sandbox")
+driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+driver.get('https://www.catch.com.au/product/asus-rog-strix-geforce-rtx-3090-24gb-oc-edition-graphics-card-7126834/?sid=rtx%203090&sp=1&st=32&srtrev=sj-x57l6dk9opvxnkkz8gmflc')
+test = driver.page_source
 
 @app.route('/', methods=['GET'])
 
@@ -36,7 +25,7 @@ def index():
 
 @app.route('/api', methods=['GET'])
 def deploy():
-    return "<h1>Olá2<h1>"
+    return test
 
 def main():
     port = int(os.environ.get("PORT", 5000))
